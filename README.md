@@ -59,85 +59,135 @@ Head over to releases and download the correct prebuild
 
 This fork has been updated with modern versions of all dependencies. Following these steps will ensure you have a working, patched version with up-to-date components.
 
-### 1. Environment Setup (Linux/Ubuntu)
+### 1. Environment Setup
 
 The build process requires modern versions of Node.js and Python.
+
+#### Linux/Ubuntu
 
 -   **Install `nvm` (Node Version Manager):** This is the best way to manage Node.js versions.
     
     
-    ```
+    ```bash
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     source ~/.bashrc
-    
     ```
     
 -   **Install and Use Node.js v20 LTS:** This project now requires Node.js v20 LTS for the latest Electron version.
     
     
-    
-    ```
+    ```bash
     nvm install 20
     nvm use 20
-    
     ```
     
 -   **Install Python 3:** The build scripts require Python 3 (3.8 or later recommended).
     
     
-    ```
+    ```bash
     sudo apt update
     sudo apt install -y python3 python3-pip
-    
     ```
     
 -   **Install Build Tools:**
     
     
-    
-    ```
+    ```bash
     sudo apt install -y build-essential git
-    
     ```
+
+#### Windows
+
+-   **Install Node.js v20 LTS:** Download and install Node.js v20 LTS from the official website.
     
+    Visit [nodejs.org](https://nodejs.org/) and download the Windows Installer (.msi) for the v20 LTS version.
+    
+-   **Install Python 3:** The build scripts require Python 3 (3.8 or later recommended).
+    
+    Download and install Python 3 from [python.org](https://www.python.org/downloads/). During installation, make sure to check "Add Python to PATH".
+    
+-   **Install Visual Studio Build Tools:** Required for compiling native Node.js modules.
+    
+    Download and install [Visual Studio Build Tools](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022) and select the "Desktop development with C++" workload.
+    
+    Alternatively, install Visual Studio 2019 or later (Community Edition is free) with the "Desktop development with C++" workload.
+    
+-   **Install Git for Windows:**
+    
+    Download and install from [git-scm.com](https://git-scm.com/download/win).
 
 ### 2. Clone and Build the Application
 
 Now, with the correct environment set up, you can clone and build the project.
 
--   **Clone  repository:**
+#### Linux
+
+-   **Clone repository:**
     
     
-    ```
+    ```bash
     git clone https://github.com/theelderemo/eDEX-UI-security-patched.git
     cd eDEX-UI-security-patched
-    
     ```
     
 -   **Install dependencies:**
         
-    ```
+    ```bash
     npm run install-linux
-    
     ```
     
     This will install all dependencies and rebuild native modules (like node-pty) for the current Electron version.
     
 -   **Build the binary:**
         
-    ```
+    ```bash
     npm run build-linux
+    ```
+
+After the build completes, you will find the installable `.AppImage` files in the `dist/` directory.
+
+#### Windows
+
+-   **Clone repository:**
     
+    Open PowerShell or Command Prompt and run:
+    
+    ```powershell
+    git clone https://github.com/theelderemo/eDEX-UI-security-patched.git
+    cd eDEX-UI-security-patched
     ```
     
+-   **Install dependencies:**
+        
+    ```powershell
+    npm run install-windows
+    ```
+    
+    This will install all dependencies and rebuild native modules (like node-pty) for the current Electron version.
+    
+-   **Build the binary:**
+        
+    ```powershell
+    npm run build-windows
+    ```
 
-After the build completes, you will find the installable `.AppImage` and `.deb` files in the `dist/` directory.
+After the build completes, you will find the installable `.exe` files in the `dist/` directory.
 
 ### Troubleshooting
+
+#### Linux
 
 If you encounter issues with native modules not building:
 - Ensure you have build-essential installed: `sudo apt install build-essential`
 - Make sure Python 3 is available: `which python3`
+- Try rebuilding manually: `cd src && npx @electron/rebuild`
+
+#### Windows
+
+If you encounter issues with native modules not building:
+- Ensure Visual Studio Build Tools are installed with the "Desktop development with C++" workload
+- Make sure Python 3 is in your PATH: `python --version`
+- Try running the command prompt or PowerShell as Administrator
 - Try rebuilding manually: `cd src && npx @electron/rebuild`
 
 # Contributing
