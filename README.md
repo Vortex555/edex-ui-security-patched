@@ -14,10 +14,11 @@ This is a community-driven fork of the original eDEX-UI, which was archived in O
 > [!NOTE]
 > Check out my android port of edex [here](https://github.com/theelderemo/Edex-UI-android)
 
-# 🛡️ Security Fix Information
-- CVE: Not assigned (discovered post-archive)
-- Severity: Critical
-- Impact: Remote Command Execution via WebSocket hijacking
+Fixed on Linux and Windows!
+    # 🛡️ Security Fix Information
+    - CVE: Not assigned (discovered post-archive)
+    - Severity: Critical
+    - Impact: Remote Command Execution via WebSocket hijacking
 
 ## Vulnerability Details
 The original eDEX-UI contained a security vulnerability where malicious websites could connect to the internal terminal control WebSocket and execute arbitrary shell commands on the user's system.
