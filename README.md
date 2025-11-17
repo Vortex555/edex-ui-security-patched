@@ -9,12 +9,7 @@
 
 eDEX-UI is a fullscreen, cross-platform terminal emulator and system monitor that looks and feels like a sci-fi computer interface.
 
-This is a community-driven fork of the original eDEX-UI, which was archived in October 2021. This fork aims to revive the project, apply security patches, and continue its development.
-
-> [!NOTE]
-> Check out my android port of edex [here](https://github.com/theelderemo/Edex-UI-android)
-
-Fixed on Linux and Windows!
+This is a Windows-optimized fork of eDEX-UI with critical security patches and updated dependencies for modern Windows systems. Built with Electron 28.3.3 and fully compatible with Windows 10/11.
     # 🛡️ Security Fix Information
     - CVE: Not assigned (discovered post-archive)
     - Severity: Critical
@@ -30,166 +25,90 @@ This fork implements proper origin validation for WebSocket connections:
 - Logs rejected connection attempts for security monitoring
 - Fixed in: `src/classes/terminal.class.js`
 
-## Recent Updates (October 2025)
+## Recent Updates (November 2025)
 
-This fork has been updated with modern versions of all dependencies:
+This Windows fork includes:
 
-- **Electron**: Upgraded from v12.1.0 to v37.6.0 (latest stable)
-- **Node.js**: Now requires v20.x LTS (previously v16)
-- **Dependencies**: All dependencies updated to latest stable versions
-- **Security**: All known vulnerabilities patched (0 vulnerabilities)
-- **xterm**: Migrated to modern @xterm/* packages (v5.5.0)
-- **Build system**: Modernized to work with current Node.js and Python versions
+- **Electron**: v28.3.3 (downgraded from v37 for @electron/remote compatibility)
+- **Node.js**: Requires v20.x LTS for building
+- **node-pty**: v1.1.0-beta39 (with prebuilt Windows binaries)
+- **@electron/remote**: v2.1.3 (properly configured for Electron 28)
+- **Security**: WebSocket origin validation, all known vulnerabilities patched
+- **UI Improvements**: Dev tools auto-open disabled, update checker disabled
+- **Build system**: Optimized for Windows with VS 2022 Build Tools support
 
 ---
 
 # ⚠️ Important Notes
 
-This is a fork of the original eDEX-UI, which is no longer actively maintained. While this fork addresses a critical security vulnerability, it should be considered a work in progress. Community contributions are welcome to help revive and improve the project. Please use this software "as-is" and take appropriate security measures when running any terminal emulator with network capabilities.
+This Windows fork is specifically optimized for Windows 10/11 and addresses critical security vulnerabilities found in the original eDEX-UI. The application has been tested and verified working on Windows systems. Use at your own discretion and take appropriate security measures when running terminal emulators.
 
 
 # Installation
 
-## Pre-built Binaries
+## Pre-built Windows Binaries
 
-⚠️ **Note: Pre-built binaries from the original repository contain the vulnerability. Only use builds from this fork or build from source.**
+Pre-built portable Windows binaries are available in the [Releases](https://github.com/Vortex555/edex-ui-security-patched-windows/releases) section.
 
-Head over to releases and download the correct prebuild
+**Download the `edex-ui-windows.zip` file**, extract it, and run `eDEX-UI.exe` - no installation required.
 
-## Building from Source (Recommended for Security)
+## Building from Source (Windows)
 
-This fork has been updated with modern versions of all dependencies. Following these steps will ensure you have a working, patched version with up-to-date components.
+### Prerequisites
 
-### 1. Environment Setup
+1. **Node.js v20 LTS**: Download from [nodejs.org](https://nodejs.org/)
+2. **Python 3**: Download from [python.org](https://www.python.org/downloads/) - Check "Add Python to PATH" during installation
+3. **Visual Studio 2022 Build Tools**: Download from [Visual Studio Downloads](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022)
+   - Select "Desktop development with C++" workload
+   - Include "MSVC v143 - VS 2022 C++ x64/x86 build tools"
+   - Include "Windows SDK" (latest version)
+   - Include "MSVC v143 - VS 2022 C++ x64/x86 Spectre-mitigated libs"
+4. **Git for Windows**: Download from [git-scm.com](https://git-scm.com/download/win)
 
-The build process requires modern versions of Node.js and Python.
+### Build Steps
 
-#### Linux/Ubuntu
+1. **Clone the repository:**
+   ```powershell
+   git clone https://github.com/Vortex555/edex-ui-security-patched-windows.git
+   cd edex-ui-security-patched-windows
+   ```
 
--   **Install `nvm` (Node Version Manager):** This is the best way to manage Node.js versions.
-    
-    
-    ```bash
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    source ~/.bashrc
-    ```
-    
--   **Install and Use Node.js v20 LTS:** This project now requires Node.js v20 LTS for the latest Electron version.
-    
-    
-    ```bash
-    nvm install 20
-    nvm use 20
-    ```
-    
--   **Install Python 3:** The build scripts require Python 3 (3.8 or later recommended).
-    
-    
-    ```bash
-    sudo apt update
-    sudo apt install -y python3 python3-pip
-    ```
-    
--   **Install Build Tools:**
-    
-    
-    ```bash
-    sudo apt install -y build-essential git
-    ```
+2. **Install dependencies:**
+   ```powershell
+   npm run install-windows
+   ```
 
-#### Windows
+3. **Build the application:**
+   ```powershell
+   npm run prebuild-windows
+   ```
 
--   **Install Node.js v20 LTS:** Download and install Node.js v20 LTS from the official website.
-    
-    Visit [nodejs.org](https://nodejs.org/) and download the Windows Installer (.msi) for the v20 LTS version.
-    
--   **Install Python 3:** The build scripts require Python 3 (3.8 or later recommended).
-    
-    Download and install Python 3 from [python.org](https://www.python.org/downloads/). During installation, make sure to check "Add Python to PATH".
-    
--   **Install Visual Studio Build Tools:** Required for compiling native Node.js modules.
-    
-    Download and install [Visual Studio Build Tools](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022) and select the "Desktop development with C++" workload.
-    
-    Alternatively, install Visual Studio 2019 or later (Community Edition is free) with the "Desktop development with C++" workload.
-    
--   **Install Git for Windows:**
-    
-    Download and install from [git-scm.com](https://git-scm.com/download/win).
+After the build completes, you'll find the portable application in `dist\edex-ui-windows\`. Run `eDEX-UI.exe` to launch.
 
-### 2. Clone and Build the Application
+### Running from Source (Development)
 
-Now, with the correct environment set up, you can clone and build the project.
-
-#### Linux
-
--   **Clone repository:**
-    
-    
-    ```bash
-    git clone https://github.com/theelderemo/eDEX-UI-security-patched.git
-    cd eDEX-UI-security-patched
-    ```
-    
--   **Install dependencies:**
-        
-    ```bash
-    npm run install-linux
-    ```
-    
-    This will install all dependencies and rebuild native modules (like node-pty) for the current Electron version.
-    
--   **Build the binary:**
-        
-    ```bash
-    npm run build-linux
-    ```
-
-After the build completes, you will find the installable `.AppImage` files in the `dist/` directory.
-
-#### Windows
-
--   **Clone repository:**
-    
-    Open PowerShell or Command Prompt and run:
-    
-    ```powershell
-    git clone https://github.com/theelderemo/eDEX-UI-security-patched.git
-    cd eDEX-UI-security-patched
-    ```
-    
--   **Install dependencies:**
-        
-    ```powershell
-    npm run install-windows
-    ```
-    
-    This will install all dependencies and rebuild native modules (like node-pty) for the current Electron version.
-    
--   **Build the binary:**
-        
-    ```powershell
-    npm run build-windows
-    ```
-
-After the build completes, you will find the installable `.exe` files in the `dist/` directory.
+To run the application directly without building:
+```powershell
+npm start
+```
 
 ### Troubleshooting
 
-#### Linux
+**node-pty build errors:**
+- Ensure Visual Studio 2022 Build Tools are properly installed with C++ workload
+- Verify Python is in PATH: `python --version`
+- Check Node.js version: `node --version` (should be v20.x)
+- Try rebuilding manually:
+  ```powershell
+  cd src
+  npm install
+  npx @electron/rebuild
+  ```
 
-If you encounter issues with native modules not building:
-- Ensure you have build-essential installed: `sudo apt install build-essential`
-- Make sure Python 3 is available: `which python3`
-- Try rebuilding manually: `cd src && npx @electron/rebuild`
-
-#### Windows
-
-If you encounter issues with native modules not building:
-- Ensure Visual Studio Build Tools are installed with the "Desktop development with C++" workload
-- Make sure Python 3 is in your PATH: `python --version`
-- Try running the command prompt or PowerShell as Administrator
-- Try rebuilding manually: `cd src && npx @electron/rebuild`
+**Application won't start:**
+- Make sure no other instances are running: `taskkill /F /IM eDEX-UI.exe`
+- Check terminal output for errors
+- Verify all dependencies installed correctly: `npm run install-windows`
 
 # Contributing
 
@@ -206,11 +125,13 @@ Sound effects by [IceWolf](https://soundcloud.com/iamicewolf).
 
 Globe visualization by [Rob "Arscan" Scanlon](https://github.com/arscan).
 
-# Security Fork Maintainer
+# Windows Fork Maintainer
 
-This security-patched fork is maintained by [theelderemo](https://github.com/theelderemo).
+This Windows-optimized fork is maintained by [Vortex555](https://github.com/Vortex555).
 
-If you discover any additional security issues, please report them by opening an issue in this repository.
+Based on the security-patched fork by [theelderemo](https://github.com/theelderemo).
+
+If you discover any issues, please report them by opening an issue in this repository.
 
 # License
 
